@@ -14,7 +14,7 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
 
-      # Step 2: Build Docker Image
+      # Step 2: Build Docker Image with render service ID stored As Secret Key
       - name: Build Docker Image
         run: docker build -t registry.render.com/${{ secrets.RENDER_SERVICE_ID }}/flaskapp:latest .
 
