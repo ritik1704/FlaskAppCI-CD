@@ -20,8 +20,9 @@ jobs:
 
       # Step 3: Log in to Render's Private Registry
       - name: Log in to Render Registry
-        run: docker login registry.render.com -u render -p ${{ secrets.RENDER_API_KEY }}
-
+        run: docker login registry.render.com -u render -p $RENDER_API_KEY
+        env:
+          RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
       # Step 4: Push Docker Image to Render's Registry
       - name: Push Docker Image
         run: docker push registry.render.com/${{ secrets.RENDER_SERVICE_ID }}/flaskapp:latest
