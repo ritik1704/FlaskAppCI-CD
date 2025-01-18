@@ -25,11 +25,3 @@ jobs:
       # Step 4: Push Docker Image to Render's Registry
       - name: Push Docker Image
         run: docker push registry.render.com/${{ secrets.RENDER_SERVICE_ID }}/flaskapp:latest
-
-      # Step 5: Deploy the Service on Render
-      - name: Deploy to Render
-        uses: render-examples/deploy-action@v1
-        with:
-          service_id: ${{ secrets.RENDER_SERVICE_ID }}
-          api_key: ${{ secrets.RENDER_API_KEY }}
-          branch: main
