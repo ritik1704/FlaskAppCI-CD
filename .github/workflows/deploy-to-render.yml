@@ -18,13 +18,7 @@ jobs:
       - name: Build Docker Image
         run: docker build -t registry.render.com/${{ secrets.RENDER_SERVICE_ID }}/flaskapp:latest .
 
-      - name: Check registry.render.com connectivity
-        run: curl -sL registry.render.com && echo "Host reachable" || echo "Host unreachable"
-
-      - name: Check general network connectivity
-        run: curl -sL google.com && echo "General internet access - OK" || echo "General internet access - Failed"
-      
-        # Step 3: Log in to Render's Private Registry
+      # Step 3: Log in to Render's Private Registry
       - name: Log in to Render Registry
         run: docker login registry.render.com -u render -p ${{ secrets.RENDER_API_KEY }}
         
