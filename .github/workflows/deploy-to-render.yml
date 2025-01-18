@@ -1,0 +1,35 @@
+name: Deploy to Render
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout the repository
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      # Step 2: Build Docker Image
+      - name: Build Docker Image
+        run: docker build -t registry.render.com/${{ secrets.RENDER_SERVICE_ID }}/flaskapp:latest .
+
+      # Step 3: Log in to Render's Private Registry
+      - name: Log in to Render Registry
+        run: docker login registry.render.com -u render -p ${{ secrets.RENDER_API_KEY }}
+
+      # Step 4: Push Docker Image to Render's Registry
+      - name: Push Docker Image
+        run: docker push registry.render.com/${{ secrets.RENDER_SERVICE_ID }}/flaskapp:latest
+
+      # Step 5: Deploy the Service on Render
+      - name: Deploy to Render
+        uses: render-examples/deploy-action@v1
+        with:
+          service_id: ${{ secrets.RENDER_SERVICE_ID }}
+          api_key: ${{ secrets.RENDER_API_KEY }}
+          branch: main
