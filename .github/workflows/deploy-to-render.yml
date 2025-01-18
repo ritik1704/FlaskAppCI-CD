@@ -17,15 +17,9 @@ jobs:
       # Step 2: Build Docker Image with render service ID stored As Secret Key
       - name: Build Docker Image
         run: docker build -t registry.render.com/${{ secrets.RENDER_SERVICE_ID }}/flaskapp:latest .
-      
-      - name: Test DNS Resolution
-        run: nslookup registry.render.com
-      
-      - name: Test Network Connectivity
-        run: ping -c 4 registry.render.com
-      
-      - name: Debug Docker Login
-        run: docker login registry.render.com -u render -p ${{ secrets.RENDER_API_KEY }}
+
+      - name: Check registry.render.com connectivity
+        run: curl -sL registry.render.com && echo "Host reachable" || echo "Host unreachable"
 
       # Step 3: Log in to Render's Private Registry
       - name: Log in to Render Registry
