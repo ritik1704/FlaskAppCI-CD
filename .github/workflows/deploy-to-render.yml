@@ -18,18 +18,19 @@ jobs:
       - name: Build Docker Image
         run: docker build -t registry.render.com/${{ secrets.RENDER_SERVICE_ID }}/flaskapp:latest .
 
-      # Step 3: Log in to Render's Private Registry
-      - name: Log in to Render Registry
-        run: docker login registry.render.com -u render -p ${{ secrets.RENDER_API_KEY }}
         
-      # Step 4: Push Docker Image to Render's Registry
+      # Step 3: Push Docker Image to Render's Registry
       - name: Push Docker Image
         run: docker push registry.render.com/${{ secrets.RENDER_SERVICE_ID }}/flaskapp:latest
 
-      # Step 5: Deploy the Service on Render
+      # Step 4: Deploy the Service on Render
       - name: Deploy to Render
         uses: johnbeynon/render-deploy-action@v0.0.8
         with:
           service_id: ${{ secrets.RENDER_SERVICE_ID }}
           api_key: ${{ secrets.RENDER_API_KEY }}
           branch: main
+    
+          # Step 5: Trigger deployment via Render Deploy Hook
+      - name: Trigger Render Deployment
+        run: curl -X POST -d '{}' "https://api.render.com/v1/deploy/${{ secrets.RENDER_DEPLOY_HOOK }}"
