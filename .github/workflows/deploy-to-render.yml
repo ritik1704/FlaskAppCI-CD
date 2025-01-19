@@ -28,4 +28,4 @@ jobs:
 
          # Step 5: Trigger Render Deployment (optional, using Deploy Hook)
       - name: Trigger Render Deployment
-        run: curl -X POST -d '{}' "https://api.render.com/v1/deploy/${{ secrets.RENDER_DEPLOY_HOOK }}"
+        run: curl -X POST -d '{}' "${{ secrets.RENDER_DEPLOY_HOOK }}"
